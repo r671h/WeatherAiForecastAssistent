@@ -90,7 +90,7 @@ Weather conditions:
 - Precipitation: ${precip_mm}mm
 - UV Index: ${uv}
 
-Give a short, fun, and practical outfit recommendation in 3-4 sentences. Be specific about clothing items (e.g. "a light denim jacket", "waterproof sneakers", "UV-protective sunglasses"). Mention any accessories needed. Keep it casual, warm, and helpful. Start directly with the advice — no greeting needed.`;
+Give a short, fun, and practical outfit recommendation in 2-3 sentences. Be specific about clothing items (e.g. "a light denim jacket", "waterproof sneakers", "UV-protective sunglasses"). Mention any accessories needed. Keep it casual, warm, and helpful. Start directly with the advice — no greeting needed.`;
 
     try {
       const result = await model.generateContent(prompt);
