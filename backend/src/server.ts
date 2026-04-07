@@ -113,15 +113,26 @@ Weather conditions:
 Give a short, fun, and practical outfit recommendation in 3-4 sentences. Be specific about clothing items.`;
 
     try {
-      const result = await model.generateContent(prompt);
-      const response = result.response;
-      const text = response.text();
+  const result = await model.generateContent(prompt);
+  const text = result.response.text();
+  res.json({ advice: text });
+} catch (error: unknown) {
+  // Log the full error detail to Render's console
+  if (error instanceof Error) {
+    console.error("Gemini error name:", error.name);
+    console.error("Gemini error message:", error.message);
+    // Gemini SDK often attaches status/details here
+    console.error("Gemini error details:", JSON.stringify(error, null, 2));
 
-      res.json({ advice: text });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "AI advice generation failed" });
-    }
+    res.status(500).json({
+      error: "AI advice generation failed",
+      detail: error.message  // temporary — remove before final production
+    });
+  } else {
+    console.error("Unknown error:", error);
+    res.status(500).json({ error: "AI advice generation failed" });
+  }
+}
   }
 );
 
