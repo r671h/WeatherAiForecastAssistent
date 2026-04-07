@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import cors from "cors";
 import axios, { AxiosError } from "axios";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import "dotenv/config";
 
 interface CitySearchResult {
   id: number;
