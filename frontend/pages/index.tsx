@@ -6,7 +6,7 @@ import WeatherBackground from "../components/WeatherBackground";
 import ForecastCard from "../components/ForecastCard";
 import OutfitAdvisor from "../components/OutfitAdvisor";
 import StatPill from "../components/StatPill";
-import CitySearch from "../components/CitySearch";
+import CitySearch from "../components//CitySearch";
 import { WeatherResponse, ApiError } from "../types/weather";
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:4000";
