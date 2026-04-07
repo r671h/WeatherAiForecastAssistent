@@ -30,12 +30,15 @@ interface OutfitRequestBody {
 
 const app = express();
 
-app.use(cors({
-  origin: [
-    "http://localhost:3000",
-    process.env.FRONTEND_URL ?? "",
-  ].filter(Boolean),
-}));
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000", // local dev
+      "https://weather-ai-forecast-assistent.vercel.app", // production
+    ],
+    methods: ["GET", "POST"],
+  })
+);
 app.use(express.json());
 
 const WEATHER_API_KEY = process.env.WEATHER_API_KEY ?? "";
@@ -88,8 +91,6 @@ app.get("/api/weather", async (req: Request, res: Response): Promise<void> => {
 app.post(
   "/api/outfit-advice",
   async (req: Request<{}, {}, OutfitRequestBody>, res: Response): Promise<void> => {
-    const test = await model.generateContent("Say hello");
-    console.log(test.response.text());
     const { weather, location } = req.body;
 
     if (!weather || !location) {
@@ -125,4 +126,9 @@ Give a short, fun, and practical outfit recommendation in 3-4 sentences. Be spec
 );
 
 const PORT = Number(process.env.PORT ?? 4000);
+// Global error handler
+app.use((err: Error, req: Request, res: Response, next: Function) => {
+  console.error("Unhandled error:", err);
+  res.status(500).json({ error: "Internal server error" });
+});
 app.listen(PORT, () => console.log(`Backend running on port ${PORT}`));
