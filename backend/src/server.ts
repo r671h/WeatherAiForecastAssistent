@@ -88,6 +88,8 @@ app.get("/api/weather", async (req: Request, res: Response): Promise<void> => {
 app.post(
   "/api/outfit-advice",
   async (req: Request<{}, {}, OutfitRequestBody>, res: Response): Promise<void> => {
+    const test = await model.generateContent("Say hello");
+    console.log(test.response.text());
     const { weather, location } = req.body;
 
     if (!weather || !location) {
