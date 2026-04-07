@@ -41,7 +41,7 @@ app.use(express.json());
 const WEATHER_API_KEY = process.env.WEATHER_API_KEY ?? "";
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY ?? "";
 const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
-const model = genAI.getGenerativeModel({ model: "gemini-3.0-flash" });
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 // GET /api/search?q=Ber
 app.get("/api/search", async (req: Request, res: Response): Promise<void> => {
