@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import cors from "cors";
 import axios, { AxiosError } from "axios";
-import Anthropic from "@anthropic-ai/sdk";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 interface CitySearchResult {
   id: number;
@@ -38,8 +38,9 @@ app.use(cors({
 app.use(express.json());
 
 const WEATHER_API_KEY = process.env.WEATHER_API_KEY ?? "";
-const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY ?? "";
-const anthropic = new Anthropic({ apiKey: ANTHROPIC_API_KEY });
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY ?? "";
+const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
+const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
 // GET /api/search?q=Ber
 app.get("/api/search", async (req: Request, res: Response): Promise<void> => {
@@ -87,11 +88,14 @@ app.post(
   "/api/outfit-advice",
   async (req: Request<{}, {}, OutfitRequestBody>, res: Response): Promise<void> => {
     const { weather, location } = req.body;
+
     if (!weather || !location) {
       res.status(400).json({ error: "Weather data and location required" });
       return;
     }
+
     const { temp_c, temp_f, condition, humidity, wind_kph, feelslike_c, precip_mm, uv } = weather;
+
     const prompt = `You are a friendly, witty personal stylist AI assistant. Based on today's weather in ${location}, give outfit advice.
 
 Weather conditions:
@@ -102,18 +106,16 @@ Weather conditions:
 - Precipitation: ${precip_mm}mm
 - UV Index: ${uv}
 
-Give a short, fun, and practical outfit recommendation in 3-4 sentences. Be specific about clothing items (e.g. "a light denim jacket", "waterproof sneakers", "UV-protective sunglasses"). Mention any accessories needed. Keep it casual, warm, and helpful. Start directly with the advice — no greeting needed.`;
+Give a short, fun, and practical outfit recommendation in 3-4 sentences. Be specific about clothing items.`;
 
     try {
-      const message = await anthropic.messages.create({
-        model: "claude-opus-4-5",
-        max_tokens: 300,
-        messages: [{ role: "user", content: prompt }],
-      });
-      const textBlock = message.content[0];
-      if (textBlock.type !== "text") throw new Error("Unexpected response type");
-      res.json({ advice: textBlock.text });
-    } catch {
+      const result = await model.generateContent(prompt);
+      const response = result.response;
+      const text = response.text();
+
+      res.json({ advice: text });
+    } catch (error) {
+      console.error(error);
       res.status(500).json({ error: "AI advice generation failed" });
     }
   }
