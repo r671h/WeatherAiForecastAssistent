@@ -29,12 +29,6 @@ interface OutfitRequestBody {
 
 const app = express();
 
-app.use(cors({
-  origin: [
-    "http://localhost:3000",
-    process.env.FRONTEND_URL ?? "",
-  ].filter(Boolean),
-}));
 app.use(express.json());
 
 const WEATHER_API_KEY = process.env.WEATHER_API_KEY ?? "";
