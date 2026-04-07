@@ -6,6 +6,7 @@ import WeatherBackground from "../components/WeatherBackground";
 import ForecastCard from "../components/ForecastCard";
 import OutfitAdvisor from "../components/OutfitAdvisor";
 import StatPill from "../components/StatPill";
+import CitySearch from "../components/CitySearch";
 import { WeatherResponse, ApiError } from "../types/weather";
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:4000";
@@ -20,7 +21,6 @@ function getTimeOfDayLabel(): string {
 }
 
 const Home: NextPage = () => {
-  const [inputValue, setInputValue] = useState<string>("");
   const [weather, setWeather] = useState<WeatherResponse | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
@@ -43,11 +43,6 @@ const Home: NextPage = () => {
       setLoading(false);
     }
   }, []);
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
-    e.preventDefault();
-    fetchWeather(inputValue);
-  };
 
   const current = weather?.current;
   const location = weather?.location;
@@ -80,42 +75,13 @@ const Home: NextPage = () => {
         </header>
 
         {/* Search */}
-        <form onSubmit={handleSubmit} className="w-full max-w-2xl mb-8">
-          <div className="relative flex gap-3">
-            <div className="flex-1 relative">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30" style={{ fontSize: 18 }}>🔍</span>
-              <input
-                type="text"
-                value={inputValue}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value)}
-                placeholder="Search city (e.g. Berlin, Tokyo, New York…)"
-                className="w-full pl-12 pr-4 py-4 rounded-2xl font-body text-sm text-white placeholder-white/30 outline-none transition-all duration-300 focus:ring-2 focus:ring-white/20"
-                style={{ background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.1)", backdropFilter: "blur(20px)" }}
-              />
-            </div>
-            <button
-              type="submit"
-              disabled={loading || !inputValue.trim()}
-              className="px-6 py-4 rounded-2xl font-semibold text-sm font-body transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed hover:scale-[1.02] active:scale-[0.98]"
-              style={{ background: loading ? "rgba(255,255,255,0.1)" : "linear-gradient(135deg, #FF6B6B, #FFE66D)", color: loading ? "rgba(255,255,255,0.5)" : "#0A0A0F", border: "none" }}
-            >
-              {loading ? (
-                <span className="flex items-center gap-2">
-                  <svg className="animate-spin" width="16" height="16" viewBox="0 0 24 24" fill="none">
-                    <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" strokeOpacity="0.3"/>
-                    <path d="M12 2A10 10 0 0 1 22 12" stroke="currentColor" strokeWidth="3" strokeLinecap="round"/>
-                  </svg>
-                  Searching
-                </span>
-              ) : "Search"}
-            </button>
+        <CitySearch onSelect={fetchWeather} loading={loading} />
+
+        {error && (
+          <div className="w-full max-w-2xl -mt-4 mb-4 px-4 py-3 rounded-xl text-sm font-body" style={{ background: "rgba(255, 100, 100, 0.1)", border: "1px solid rgba(255, 100, 100, 0.2)", color: "#FCA5A5" }}>
+            ⚠️ {error}
           </div>
-          {error && (
-            <div className="mt-3 px-4 py-3 rounded-xl text-sm font-body" style={{ background: "rgba(255, 100, 100, 0.1)", border: "1px solid rgba(255, 100, 100, 0.2)", color: "#FCA5A5" }}>
-              ⚠️ {error}
-            </div>
-          )}
-        </form>
+        )}
 
         {/* Empty state */}
         {!weather && !loading && (
@@ -135,7 +101,7 @@ const Home: NextPage = () => {
             <p className="text-white/40 text-base font-body max-w-xs leading-relaxed">Search any city to get today's forecast and AI-powered outfit recommendations.</p>
             <div className="flex gap-3 mt-8 flex-wrap justify-center">
               {(["New York", "Tokyo", "Paris", "Sydney"] as string[]).map((c) => (
-                <button key={c} onClick={() => { setInputValue(c); fetchWeather(c); }}
+                <button key={c} onClick={() => fetchWeather(c)}
                   className="px-4 py-2 rounded-full text-sm font-body text-white/60 hover:text-white/90 transition-all"
                   style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)" }}>
                   {c}
