@@ -23,8 +23,8 @@ export default function OutfitAdvisor({ weather, location }: OutfitAdvisorProps)
       const data: OutfitAdviceResponse | ApiError = await res.json();
       if ("error" in data) throw new Error(data.error);
       setAdvice(data.advice);
-    } catch {
-      setAdvice("Couldn't fetch outfit advice right now. Please try again!");
+    } catch (e : any){
+      setAdvice(e.message || "Failed to get advice. Please try again.");
     } finally {
       setLoading(false);
     }
