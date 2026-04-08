@@ -35,6 +35,7 @@ app.use(
     origin: [
       "http://localhost:3000", // local dev
       "https://weather-ai-forecast-assistent.vercel.app", // production
+      "https://weather-ai-forecast-assistent-git-feature-r671hs-projects.vercel.app/"
     ],
     methods: ["GET", "POST"],
   })
