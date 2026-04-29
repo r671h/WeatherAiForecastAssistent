@@ -1,7 +1,7 @@
 Project Description: AI Weather Forecast Assistant
 AI Weather Forecast Assistant is a modern, intelligent web application designed to provide users with more than just raw meteorological data. By leveraging Artificial Intelligence, the application analyzes current weather conditions and provides personalized, actionable recommendations, making it a comprehensive lifestyle companion rather than a simple forecast tool.
 
-🛠 Technologies Used
+ Technologies Used
 The project is built using a cutting-edge tech stack to ensure performance, scalability, and a premium user experience:
 
 Framework: Next.js 14/15 (App Router) – for server-side rendering, optimal SEO, and fast routing.
@@ -18,7 +18,7 @@ Deployment: Vercel – for high-availability cloud hosting.
 
 Icons & UI Components: Lucide React and Radix UI – for accessible and consistent interface elements.
 
-⚙️ Methodology & Implementation
+ Methodology & Implementation
 The application follows a structured data-to-insight pipeline:
 
 Data Acquisition: The app fetches real-time data (temperature, humidity, wind speed, UV index, etc.) based on the user's geolocation or manual search.
@@ -29,7 +29,7 @@ AI Analysis: The AI evaluates the data against human-centric needs (e.g., "Is it
 
 Dynamic Rendering: The results are displayed using a clean, intuitive dashboard that adapts its visual style based on the current weather state.
 
-🌟 Key Advantages Over Traditional Weather Apps
+ Key Advantages Over Traditional Weather Apps
 Unlike standard weather applications that only show numbers and icons, this AI-driven assistant offers several unique benefits:
 
 Actionable Insights: Instead of just seeing "15°C and Windy," users get advice like "It feels colder than it looks; a windbreaker is recommended for your morning commute."
