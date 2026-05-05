@@ -14,7 +14,6 @@ export interface CurrentWeather {
   wind_dir: string;
   precip_mm: number;
   vis_km: number;
-  uv: number;
   is_day: number;
   condition: WeatherCondition;
 }
@@ -70,7 +69,6 @@ export interface OutfitAdviceRequest {
     wind_kph: number;
     feelslike_c: number;
     precip_mm: number;
-    uv: number;
   };
   location: string;
 }

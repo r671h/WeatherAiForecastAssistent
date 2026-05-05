@@ -6,7 +6,7 @@ import WeatherBackground from "../components/WeatherBackground";
 import ForecastCard from "../components/ForecastCard";
 import OutfitAdvisor from "../components/OutfitAdvisor";
 import StatPill from "../components/StatPill";
-import CitySearch from "../components//CitySearch";
+import CitySearch from "../components/Citysearch";
 import { WeatherResponse, ApiError } from "../types/weather";
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:4000";
@@ -146,13 +146,12 @@ const Home: NextPage = () => {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               <StatPill icon="💧" label="Humidity" value={`${current.humidity}%`} />
               <StatPill icon="💨" label="Wind" value={`${Math.round(current.wind_kph)} km/h`} />
-              <StatPill icon="☀️" label="UV Index" value={String(current.uv ?? "—")} />
               <StatPill icon="👁️" label="Visibility" value={`${current.vis_km} km`} />
             </div>
 
             {/* AI Advisor */}
             <OutfitAdvisor
-              weather={{ temp_c: current.temp_c, temp_f: current.temp_f, condition: current.condition, humidity: current.humidity, wind_kph: current.wind_kph, feelslike_c: current.feelslike_c, precip_mm: current.precip_mm, uv: current.uv }}
+              weather={{ temp_c: current.temp_c, temp_f: current.temp_f, condition: current.condition, humidity: current.humidity, wind_kph: current.wind_kph, feelslike_c: current.feelslike_c, precip_mm: current.precip_mm}}
               location={`${location.name}, ${location.country}`}
             />
 
