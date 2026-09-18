@@ -188,7 +188,7 @@ const Home: NextPage = () => {
               </div>
             )}
 
-            <p className="text-center text-white/20 text-xs font-body pb-4">Data from WeatherAPI.com · AI advice by Claude</p>
+            <p className="text-center text-white/20 text-xs font-body pb-4">Data from WeatherAPI.com · AI advice by Gemini</p>
           </div>
         )}
       </main>
